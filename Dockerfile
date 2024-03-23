@@ -1,7 +1,14 @@
+FROM golang:1.19 AS builder
+WORKDIR /app
+COPY . ./
+RUN /bin/sh -c "go env -w GOPROXY=https://goproxy.cn"
+RUN /bin/sh -c "go build -o cloudreve main.go"
+
+---
 FROM alpine:latest
 
 WORKDIR /cloudreve
-COPY cloudreve ./cloudreve
+COPY --from=builder cloudreve ./cloudreve
 
 RUN apk update \
     && apk add --no-cache tzdata \
