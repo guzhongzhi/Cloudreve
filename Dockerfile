@@ -4,7 +4,7 @@ COPY . ./
 RUN /bin/sh -c "go env -w GOPROXY=https://goproxy.cn"
 RUN /bin/sh -c "go build -o cloudreve main.go"
 
----
+#---
 FROM alpine:latest
 
 WORKDIR /cloudreve
