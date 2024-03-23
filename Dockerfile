@@ -8,7 +8,7 @@ RUN /bin/sh -c "go build -o cloudreve main.go"
 FROM alpine:latest
 
 WORKDIR /cloudreve
-COPY --from=builder cloudreve ./cloudreve
+
 
 RUN apk update \
     && apk add --no-cache tzdata \
@@ -17,6 +17,9 @@ RUN apk update \
     && chmod +x ./cloudreve \
     && mkdir -p /data/aria2 \
     && chmod -R 766 /data/aria2
+    
+COPY --from=builder /app/cloudreve ./cloudreve
+
 
 EXPOSE 5212
 VOLUME ["/cloudreve/uploads", "/cloudreve/avatar", "/data"]
